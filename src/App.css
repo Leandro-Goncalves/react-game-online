@@ -1,0 +1,16 @@
+#root {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* .App::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background-color: blue;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  left: 50%;
+} */
