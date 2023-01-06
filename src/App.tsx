@@ -35,7 +35,7 @@ function App() {
       canvasParentRef
     );
 
-    socket = io("http://18.230.75.217:3000");
+    socket = io("http://54.233.154.58");
 
     socket.on("connect", () => {
       socket.emit(
