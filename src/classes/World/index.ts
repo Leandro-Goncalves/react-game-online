@@ -66,7 +66,7 @@ export class World {
 
     tiles.map((layer) => renderLayer(this, layer));
 
-    window.addEventListener("keypress", this.onKeyPress.bind(this));
+    window.addEventListener("keydown", this.onKeyPress.bind(this));
     window.addEventListener("keyup", this.onKeyup.bind(this));
   }
   loadNewTiles(tiles: Layer[]) {

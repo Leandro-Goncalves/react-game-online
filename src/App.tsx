@@ -20,6 +20,7 @@ function App() {
   const preload = async (p5: p5Types) => {
     wallSrc = p5.loadImage("sprites.png");
     playerSrc = p5.loadImage("playerSprite.png");
+    (window as any).mainFont = p5.loadFont("fonts/mainFont.ttf");
   };
 
   const setup = async (p5: p5Types, canvasParentRef: Element) => {
@@ -34,7 +35,7 @@ function App() {
       canvasParentRef
     );
 
-    socket = io("https://my-game-backend.herokuapp.com:39361");
+    socket = io("http://18.230.75.217:3000");
 
     socket.on("connect", () => {
       socket.emit(

@@ -8,14 +8,8 @@ import {
 import { Entity, EntityProps } from "../Entity";
 import { GestureEntity } from "../GestureEntity";
 import { World } from "../World";
-import { v4 as uuidv4 } from "uuid";
 import { Sprite } from "../Sprite";
-
-interface Message {
-  message: string;
-  id: string;
-  opacity: number;
-}
+import { TextBallon } from "../TextBallon";
 
 interface PlayerProps extends EntityProps {
   id: string;
@@ -56,8 +50,8 @@ export class Player extends Entity {
   movementSpeed: number;
   socket: Socket;
   isMyPlayer: boolean;
-  messages: Message[];
   sprite: Sprite;
+  TextBallon: TextBallon;
   constructor({
     x,
     y,
@@ -74,7 +68,7 @@ export class Player extends Entity {
     this.id = id;
     this.isMyPlayer = isMyPlayer ?? false;
     this.movementSpeed = 3;
-    this.messages = [];
+    this.TextBallon = new TextBallon();
     this.keys = {
       up: false,
       left: false,
@@ -167,36 +161,11 @@ export class Player extends Entity {
   }
 
   removeMessage(messageId: string) {
-    const message = this.messages.find((m) => m.id === messageId);
-    if (!message) {
-      return;
-    }
-
-    const decreaseOpacity = () => {
-      message.opacity -= 0.05;
-      if (message.opacity > 0) {
-        setTimeout(decreaseOpacity, 5);
-      } else {
-        message.opacity = 0;
-        this.messages = this.messages.filter(({ id }) => id !== messageId);
-      }
-    };
-
-    decreaseOpacity();
+    this.TextBallon.remove(messageId);
   }
 
   addMessage(message: string) {
-    const id = uuidv4();
-    this.messages.push({
-      message,
-      id,
-      opacity: 1,
-    });
-
-    if (this.messages.length > 4) {
-      this.messages.shift();
-    }
-    setTimeout(() => this.removeMessage(id), 10000);
+    this.TextBallon.add(message);
   }
 
   draw(p5: p5Types) {
@@ -213,20 +182,7 @@ export class Player extends Entity {
       p5.rect(this.x, this.y, this.width, this.height);
     }
 
-    if (this.messages.length < 1) {
-      return;
-    }
-
-    p5.fill("rgba(0,0,0,0.5)");
-    p5.rect(this.x + 25, this.y + 5, 100, -30 * this.messages.length);
-
-    const messageReverse = [...this.messages].reverse();
-    messageReverse.forEach(({ message, opacity }, index) => {
-      p5.fill(`rgba(255,255,255,${opacity})`);
-
-      p5.textSize(24);
-      p5.text(message, this.x + 30, this.y - 30 * index);
-    });
+    this.TextBallon.render(p5, this.x + 25, this.y);
   }
 
   onkeyup(event: KeyboardEvent) {
