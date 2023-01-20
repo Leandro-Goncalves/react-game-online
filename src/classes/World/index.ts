@@ -74,9 +74,10 @@ export class World {
     tiles.map((layer) => renderLayer(this, layer));
   }
   onKeyPress(event: any) {
-    if (event.path[0] instanceof HTMLInputElement) {
-      return;
-    }
+    console.log(event.path);
+    // if (event.path[0] instanceof HTMLInputElement) {
+    //   return;
+    // }
     this.entities.forEach((entity) => entity.onkeypress(event));
 
     const { isColliding, Entity } = entityListColliding(
