@@ -78,7 +78,7 @@ function App() {
       canvasParentRef
     );
 
-    socket = io("http://localhost:3000");
+    socket = io(import.meta.env.VITE_API_URL);
 
     socket.on("connect", () => {
       socket.emit(
