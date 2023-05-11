@@ -68,7 +68,9 @@ export class Player extends Entity {
     this.id = id;
     this.isMyPlayer = isMyPlayer ?? false;
     this.movementSpeed = 3;
-    this.TextBallon = new TextBallon();
+    this.TextBallon = new TextBallon({
+      reverseMessage: true,
+    });
     this.keys = {
       up: false,
       left: false,
@@ -78,34 +80,34 @@ export class Player extends Entity {
 
     this.sprite = new Sprite({
       spriteSrc: playerSrc,
-      initialSpritePosition: { x: 0, y: 0, width: 48, height: 48 },
+      initialSpritePosition: { x: 0, y: 0, width: 36, height: 42 },
       generalProps: {
         animationTime: 3,
       },
     });
 
     this.sprite.addSpriteAnimation("down", [
-      { x: 0, y: 0, width: 48, height: 48 },
-      { x: 48, y: 0, width: 48, height: 48 },
-      { x: 96, y: 0, width: 48, height: 48 },
-    ]);
-
-    this.sprite.addSpriteAnimation("left", [
-      { x: 0, y: 48, width: 48, height: 48 },
-      { x: 48, y: 48, width: 48, height: 48 },
-      { x: 96, y: 48, width: 48, height: 48 },
-    ]);
-
-    this.sprite.addSpriteAnimation("right", [
-      { x: 0, y: 96, width: 48, height: 48 },
-      { x: 48, y: 96, width: 48, height: 48 },
-      { x: 96, y: 96, width: 48, height: 48 },
+      { x: 0, y: 0, width: 36, height: 42 },
+      { x: 36, y: 0, width: 36, height: 42 },
+      { x: 72, y: 0, width: 36, height: 42 },
     ]);
 
     this.sprite.addSpriteAnimation("up", [
-      { x: 0, y: 144, width: 48, height: 48 },
-      { x: 48, y: 144, width: 48, height: 48 },
-      { x: 96, y: 144, width: 48, height: 48 },
+      { x: 0, y: 42, width: 36, height: 42 },
+      { x: 36, y: 42, width: 36, height: 42 },
+      { x: 72, y: 42, width: 36, height: 42 },
+    ]);
+
+    this.sprite.addSpriteAnimation("right", [
+      { x: 0, y: 84, width: 36, height: 42 },
+      { x: 36, y: 84, width: 36, height: 42 },
+      { x: 72, y: 84, width: 36, height: 42 },
+    ]);
+
+    this.sprite.addSpriteAnimation("left", [
+      { x: 0, y: 126, width: 36, height: 42 },
+      { x: 36, y: 126, width: 36, height: 42 },
+      { x: 72, y: 126, width: 36, height: 42 },
     ]);
 
     if (initialAnimation) {

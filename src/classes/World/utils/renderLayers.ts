@@ -7,6 +7,7 @@ import { DoorObject } from "./objects/DoorObject";
 import { initialSpawnObject } from "./objects/initialSpawnObject";
 import { PassageObject } from "./objects/PassageObject";
 import { selectCurrentTileTexture } from "./selectCurrentTileTexture";
+import { PageObject } from "./objects/PageObject";
 
 export interface Properties {
   name: string;
@@ -97,6 +98,7 @@ const objectClasses: Record<string, any> = {
   button: ButtonObject,
   initialSpawn: initialSpawnObject,
   signs: SignsObject,
+  page: PageObject,
 };
 
 const objectLayer = ({ world, layer }: ObjectLayer) => {

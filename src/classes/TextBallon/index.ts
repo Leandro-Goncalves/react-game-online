@@ -7,9 +7,14 @@ interface Message {
   opacity: number;
 }
 
+interface TextBallonProps {
+  reverseMessage?: boolean;
+}
+
 export class TextBallon {
   messages: Message[];
-  constructor() {
+
+  constructor({}: TextBallonProps) {
     this.messages = [];
   }
 
@@ -21,9 +26,9 @@ export class TextBallon {
       opacity: 1,
     });
 
-    if (this.messages.length > 4) {
-      this.messages.shift();
-    }
+    // if (this.messages.length > 4) {
+    //   this.messages.shift();
+    // }
     setTimeout(() => this.remove(id), 10000);
   }
   remove(messageId: string) {
@@ -57,7 +62,7 @@ export class TextBallon {
 
     let XValue = x;
 
-    const largestMessage = this.messages
+    const largestMessage = [...this.messages]
       .reverse()
       .sort((a, b) => a.message.length - b.message.length)
       .reverse()[0];
@@ -69,10 +74,11 @@ export class TextBallon {
       XValue -= textBallonWidth / 2;
     }
 
-    p5.fill("rgba(255,255,255,1)");
+    p5.fill("rgba(255,255,255,0.8)");
     p5.rect(XValue, y + 5, textBallonWidth, -31 * this.messages.length, 10);
 
     const messageReverse = [...this.messages].reverse();
+
     messageReverse.forEach(({ message, opacity }, index) => {
       p5.fill(`rgba(0,0,0,${opacity})`);
 

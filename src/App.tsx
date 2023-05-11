@@ -10,20 +10,63 @@ import { v4 as uuidv4 } from "uuid";
 import { random2dPosition } from "./helpers/utils/randomPosition";
 import { ChatBar } from "./components/ChatBar";
 import { Sprite } from "./classes/Sprite";
+import { useEasterEgg } from "./helpers/hooks/useEasterEgg";
+import useSound from "use-sound";
+import { ProjectDetails } from "./components/ProjectDetails";
+
+const SecretCode = [
+  "ArrowUp",
+  "ArrowUp",
+  "ArrowDown",
+  "ArrowDown",
+  "ArrowLeft",
+  "ArrowRight",
+  "ArrowLeft",
+  "ArrowRight",
+  "b",
+  "a",
+];
 
 function App() {
   let world: World;
   let wallSrc: p5Types.Image;
   let playerSrc: p5Types.Image;
   let socket: Socket;
+  let MyPlayer: Player;
+  const [audio] = useState(new Audio("./audios/mario.mp3"));
+
+  const handleEasterEgg = async () => {
+    await audio.play();
+    audio.volume = 0.5;
+    MyPlayer.movementSpeed = 5;
+
+    setTimeout(() => {
+      MyPlayer.movementSpeed = 3;
+      audio.pause();
+      audio.currentTime = 0;
+    }, 10000);
+  };
+
+  const { eventListener, removeEventListener } = useEasterEgg(
+    SecretCode.join(""),
+    handleEasterEgg
+  );
+
+  useEffect(() => {
+    eventListener();
+
+    return removeEventListener();
+  }, []);
 
   const preload = async (p5: p5Types) => {
     wallSrc = p5.loadImage("sprites.png");
-    playerSrc = p5.loadImage("playerSprite.png");
+    playerSrc = p5.loadImage("playerSprite2.png");
     (window as any).mainFont = p5.loadFont("fonts/mainFont.ttf");
+    (window as any).density = p5.pixelDensity();
   };
 
   const setup = async (p5: p5Types, canvasParentRef: Element) => {
+    (window as any).p5 = p5;
     const windowResized = () => {
       if (p5) {
         p5.resizeCanvas(window.innerWidth, window.innerHeight);
@@ -35,7 +78,7 @@ function App() {
       canvasParentRef
     );
 
-    socket = io("http://54.233.154.58");
+    socket = io("http://localhost:3000");
 
     socket.on("connect", () => {
       socket.emit(
@@ -46,11 +89,11 @@ function App() {
             y: 100,
           };
 
-          const MyPlayer = new Player({
+          MyPlayer = new Player({
             x: initialSpawn.x,
             y: initialSpawn.y,
-            width: 40,
-            height: 40,
+            width: 36,
+            height: 42,
             id: socket.id,
             socket,
             isMyPlayer: true,
@@ -76,8 +119,8 @@ function App() {
               new Player({
                 x: user.x,
                 y: user.y,
-                width: 40,
-                height: 40,
+                width: 36,
+                height: 42,
                 id: user.id,
                 socket,
                 playerSrc,
@@ -188,6 +231,7 @@ function App() {
     <div className="App">
       <Sketch setup={setup} draw={draw} preload={preload} />
       <ChatBar sendMessage={handleSendMessageToMyPlayer} />
+      <ProjectDetails />
     </div>
   );
 }

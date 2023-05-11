@@ -13,7 +13,9 @@ export class Signs extends GestureEntity {
   constructor({ text, ...rest }: SignsProps) {
     super(rest);
     this.text = text;
-    this.TextBallon = new TextBallon();
+    this.TextBallon = new TextBallon({
+      reverseMessage: false,
+    });
     this.index = 2;
   }
 

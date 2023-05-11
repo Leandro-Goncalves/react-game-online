@@ -32,9 +32,15 @@ export class Sprite {
     this.spriteSrc = spriteSrc;
     this.sprites = {};
     this.generalProps = generalProps ?? {};
+    const density = (window as any).density;
 
     const { x, y, width, height } = initialSpritePosition;
-    this.currentSpriteImage = spriteSrc.get(x, y, width, height);
+    this.currentSpriteImage = spriteSrc.get(
+      x,
+      y,
+      width * density,
+      height * density
+    );
   }
 
   addSpriteAnimation(name: string, spritesPosition: SpritesPosition[]) {

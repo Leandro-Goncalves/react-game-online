@@ -74,7 +74,6 @@ export class World {
     tiles.map((layer) => renderLayer(this, layer));
   }
   onKeyPress(event: any) {
-    console.log(event.path);
     // if (event.path[0] instanceof HTMLInputElement) {
     //   return;
     // }
