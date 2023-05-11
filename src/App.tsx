@@ -78,7 +78,9 @@ function App() {
       canvasParentRef
     );
 
-    socket = io(import.meta.env.VITE_API_URL);
+    console.log(import.meta.env);
+
+    socket = io("http://54.233.154.58");
 
     socket.on("connect", () => {
       socket.emit(
